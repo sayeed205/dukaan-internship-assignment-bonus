@@ -1,0 +1,706 @@
+{
+	"info": {
+		"_postman_id": "82ce6820-ad68-49c9-ad0d-d3136add1e8c",
+		"name": "Dukaan-bonus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22924881"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"sayeed205@gmail.com\",\r\n    \"password\": \"Abcd@1234\",\r\n    \"name\": \"Sayd Ahmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/signup/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"sayeed205@gmail.com\",\r\n    \"password\": \"Abcd@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/login/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@gmail.com\",\r\n    \"password\": \"Abcd@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/login/end-user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"end-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End User Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@gmail.com\",\r\n    \"password\": \"Abcd@1234\",\r\n    \"name\": \"Sayd Ahmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/signup/end-user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup",
+								"end-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users?q=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "l",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "q",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzYXllZWQyMDVAZ21haWwuY29tIiwiaWF0IjoxNjkzMDUxNTI4LCJleHAiOjE2OTM2NTYzMjh9.FSDif0aZFmdM7htpSb0moCVQ_OzDUkHhfqnpEx0746I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sayed Ahmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA0MTc5MywiZXhwIjoxNjkzNjQ2NTkzfQ.K9Xf_EM6WpCdSR-RK6D4FzFFtlpTBFifI3nHIClq-H0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Conversations",
+			"item": [
+				{
+					"name": "Create Conversation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA1NzU5MywiZXhwIjoxNjkzNjYyMzkzfQ.UOIIfj3_6MQdOoRO2qdy4KNvT7zI_K1QUiLnl7I41Us",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"what is kotlin\",\r\n    \"content\": \"Give a brief description of kotlin\",\r\n    \"chatbotId\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/conversations",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"conversations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get conversation for a chat bot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA1NzU5MywiZXhwIjoxNjkzNjYyMzkzfQ.UOIIfj3_6MQdOoRO2qdy4KNvT7zI_K1QUiLnl7I41Us",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/conversations/chatbot/5?p=1&l=2&q=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"conversations",
+								"chatbot",
+								"5"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "l",
+									"value": "2"
+								},
+								{
+									"key": "q",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update conversation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA1NzU5MywiZXhwIjoxNjkzNjYyMzkzfQ.UOIIfj3_6MQdOoRO2qdy4KNvT7zI_K1QUiLnl7I41Us",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isComplete\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/conversations/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"conversations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Conversation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/conversations/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"conversations",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a conversation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA1NzU5MywiZXhwIjoxNjkzNjYyMzkzfQ.UOIIfj3_6MQdOoRO2qdy4KNvT7zI_K1QUiLnl7I41Us",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/conversations/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"conversations",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "End Users",
+			"item": [
+				{
+					"name": "Get End Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/end-users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"end-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get End User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/end-users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"end-users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update End User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA2MTQxNCwiZXhwIjoxNjkzNjY2MjE0fQ.XGGGu5MBf2LhbCwAgjESyJ6i7vUIwnNpQxS4vNtSkLY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sayed Ahmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/end-users/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"end-users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete My Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY5MzA1MTg3MiwiZXhwIjoxNjkzNjU2NjcyfQ.Hquj51vR7g3ZW1I-4l_3mdu0BUP39N0XqucnFVo8-pQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/end-users/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"end-users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat Bot",
+			"item": [
+				{
+					"name": "Create Chat Bot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzYXllZWQyMDVAZ21haWwuY29tIiwiaWF0IjoxNjkzMDU1NjQ5LCJleHAiOjE2OTM2NjA0NDl9.oPjQq8HL_34GyquEBfKMEB_gYk8CeDrx3Om_oqUJ_F4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"OpenAI Bot\",\r\n    \"description\": \"manage your gorups\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/chatbots/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chatbots",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all chat bots",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzYXllZWQyMDVAZ21haWwuY29tIiwiaWF0IjoxNjkzMDU1NjQ5LCJleHAiOjE2OTM2NjA0NDl9.oPjQq8HL_34GyquEBfKMEB_gYk8CeDrx3Om_oqUJ_F4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/chatbots/user/2?l=2&q=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chatbots",
+								"user",
+								"2"
+							],
+							"query": [
+								{
+									"key": "l",
+									"value": "2"
+								},
+								{
+									"key": "q",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat Bot by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/chatbots/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chatbots",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Chat Bot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzYXllZWQyMDVAZ21haWwuY29tIiwiaWF0IjoxNjkzMDU1NjQ5LCJleHAiOjE2OTM2NjA0NDl9.oPjQq8HL_34GyquEBfKMEB_gYk8CeDrx3Om_oqUJ_F4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Personal chat bot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/chatbots/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chatbots",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a chat bot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzYXllZWQyMDVAZ21haWwuY29tIiwiaWF0IjoxNjkzMDU3MDcxLCJleHAiOjE2OTM2NjE4NzF9.u0FG3IYoGCxsgwEOGL2scyDPCaM6g7Hc70kr1IDXxiE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/chatbots/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chatbots",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
