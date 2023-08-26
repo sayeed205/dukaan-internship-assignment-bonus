@@ -13,21 +13,36 @@ export const createChatBot = z.object({
         .strict(),
 });
 
-// const chatBotId = z.object({
-//     id: z
-//         .string({
-//             required_error: 'Chatbot id is required',
-//         })
-//         .transform(val => parseInt(val, 10)),
-// });
+export const id = z.object({
+    params: z.object({
+        id: z
+            .string({
+                required_error: 'User id is required',
+            })
+            .transform(val => parseInt(val)),
+    }),
+});
 
-// export const getChatbotById = z.object({
-//     params: chatBotId,
-// });
-
-// export const updateChatBot = z.object({
-//     body: chatBotInfo.partial().strict(),
-//     params: chatBotId.strict(),
-// });
-
-// export type ChatbotInfo = z.infer<typeof chatBotInfo>;
+export const updateChatBot = z.object({
+    body: z
+        .object({
+            name: z
+                .string({
+                    required_error: 'Name is required',
+                })
+                .optional(),
+            description: z
+                .string({
+                    required_error: 'Description is required',
+                })
+                .optional(),
+        })
+        .strict(),
+    params: z.object({
+        id: z
+            .string({
+                required_error: 'User id is required',
+            })
+            .transform(val => parseInt(val)),
+    }),
+});
