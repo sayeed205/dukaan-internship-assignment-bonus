@@ -1,8 +1,11 @@
 import { Op } from 'sequelize';
 
+import { z } from 'zod';
 import { User } from '../models';
 import { ErrorResponse } from '../utils';
-import { Pagination } from '../validations';
+import { Pagination, userValidation } from '../validations';
+
+type UserBody = z.infer<typeof userValidation.updateProfile>;
 
 export const getAllUsers = async (pagination: Pagination) => {
     const { p, l, q } = pagination;
@@ -47,7 +50,7 @@ export const getUserById = async (id: number) => {
     return { ok: true, user };
 };
 
-export const updateProfile = async (id: number, body: any) => {
+export const updateProfile = async (id: number, body: UserBody['body']) => {
     const user = await User.findByPk(id, {
         attributes: ['id', 'name', 'email'],
     });

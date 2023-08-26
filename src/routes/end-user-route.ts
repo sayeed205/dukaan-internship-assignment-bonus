@@ -1,36 +1,30 @@
 import { Router } from 'express';
 import { endUserController } from '../controllers';
-import { validate } from '../middleware';
+import { auth, validate } from '../middleware';
 import { asyncHandler } from '../utils';
-import { endUserValidation } from '../validations';
+import { endUserValidation, pagination } from '../validations';
 
 const router = Router();
 
-router.post(
-    '/endusers',
-    validate(endUserValidation.createEndUser),
-    asyncHandler(endUserController.createEndUser)
+router.get(
+    '/',
+    validate(pagination),
+    asyncHandler(endUserController.getAllEndUsers)
 );
 
-router.get('/endusers', asyncHandler(endUserController.getAllEndUsers));
-
 router.get(
-    '/endusers/:id',
+    '/:id',
     validate(endUserValidation.getEndUserById),
     asyncHandler(endUserController.getEndUserById)
 );
 
 router.put(
-    '/endusers/:id',
-    validate(endUserValidation.getEndUserById),
-    validate(endUserValidation.updateEndUser),
-    asyncHandler(endUserController.updateEndUser)
+    '/profile',
+    auth,
+    validate(endUserValidation.updateProfile),
+    asyncHandler(endUserController.updateProfile)
 );
 
-router.delete(
-    '/endusers/:id',
-    validate(endUserValidation.getEndUserById),
-    asyncHandler(endUserController.deleteEndUser)
-);
+router.delete('/profile', auth, asyncHandler(endUserController.deleteEndUser));
 
 export const endUserRouter = router;

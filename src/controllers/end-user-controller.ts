@@ -1,25 +1,27 @@
 import { Request, Response } from 'express';
 import { endUserService } from '../services';
-
-export const createEndUser = async (req: Request, res: Response) => {
-    res.status(201).json(await endUserService.createEndUser(req.body));
-};
+import { getUser, zParse } from '../utils';
+import { endUserValidation, pagination } from '../validations';
 
 export const getAllEndUsers = async (req: Request, res: Response) => {
-    res.status(200).json(await endUserService.getAllEndUsers());
+    const parse = await zParse(pagination, req);
+    res.status(200).json(await endUserService.getAllEndUsers(parse.query));
 };
 
 export const getEndUserById = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-    res.status(200).json(await endUserService.getEndUserById(id));
+    const parse = await zParse(endUserValidation.getEndUserById, req);
+    res.status(200).json(await endUserService.getEndUserById(parse.params.id));
 };
 
-export const updateEndUser = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-    res.status(200).json(await endUserService.updateEndUser(id, req.body));
+export const updateProfile = async (req: Request, res: Response) => {
+    const parse = await zParse(endUserValidation.updateProfile, req);
+    const user = getUser(req);
+    res.status(200).json(
+        await endUserService.updateProfile(user.id, parse.body)
+    );
 };
 
 export const deleteEndUser = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-    res.status(200).json(await endUserService.deleteEndUser(id));
+    const user = getUser(req);
+    res.status(200).json(await endUserService.deleteEndUser(user.id));
 };

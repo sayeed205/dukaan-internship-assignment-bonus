@@ -19,12 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-app.use(endUserRouter); // end-user router
-app.use(conversationRouter); // conversation router
-
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/chatbots', chatbotRouter);
+app.use('/api/conversations', conversationRouter);
+app.use('/api/end-users', endUserRouter);
 
 const PORT = process.env.PORT || 5000;
 

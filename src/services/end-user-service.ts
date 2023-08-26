@@ -1,23 +1,43 @@
+import { Op } from 'sequelize';
+import { z } from 'zod';
 import { EndUser } from '../models';
 import { ErrorResponse } from '../utils';
-import { CreateEndUser } from '../validations/end-user-validation';
+import { Pagination, endUserValidation } from '../validations';
 
-export const createEndUser = async (endUserInfo: CreateEndUser) => {
-    const { name, email, password } = endUserInfo;
+type UserBody = z.infer<typeof endUserValidation.updateProfile>;
 
-    if (await EndUser.isEmailTaken(email)) {
-        throw new ErrorResponse('Email is already in use', 409);
-    }
-
-    const endUser = await EndUser.create({ name, email, password });
-    return { ok: true, token: endUser.generateToken() };
-};
-
-export const getAllEndUsers = async () => {
-    const endUsers = await EndUser.findAll({
+export const getAllEndUsers = async (pagination: Pagination) => {
+    const { p, l, q } = pagination;
+    const endUsers = await EndUser.findAndCountAll({
         attributes: ['id', 'name', 'email'],
+        limit: l,
+        offset: (p - 1) * l,
+        where: {
+            [Op.or]: [
+                {
+                    name: {
+                        [Op.like]: `%${q}%`,
+                    },
+                },
+                {
+                    email: {
+                        [Op.like]: `%${q}%`,
+                    },
+                },
+            ],
+        },
     });
-    return { ok: true, endUsers };
+
+    return {
+        ok: true,
+        data: {
+            endUsers: endUsers.rows,
+            page: p,
+            limit: l,
+            total: endUsers.count,
+            totalPages: Math.ceil(endUsers.count / l),
+        },
+    };
 };
 
 export const getEndUserById = async (id: number) => {
@@ -30,38 +50,25 @@ export const getEndUserById = async (id: number) => {
     return { ok: true, endUser };
 };
 
-export const updateEndUser = async (
-    id: number,
-    endUserInfo: Partial<CreateEndUser>
-) => {
+export const updateProfile = async (id: number, body: UserBody['body']) => {
     const endUser = await EndUser.findByPk(id, {
         attributes: ['id', 'name', 'email'],
     });
+
     if (!endUser) {
         throw new ErrorResponse('EndUser not found', 404);
     }
 
-    const { email } = endUserInfo;
+    const updatedEndUser = await endUser.update(body);
 
-    if (
-        email &&
-        email !== endUser.email &&
-        (await EndUser.isEmailTaken(email))
-    ) {
-        throw new ErrorResponse('Email is already in use', 409);
-    }
-
-    await endUser.update({ ...endUserInfo });
-    return { ok: true, endUser };
+    return { ok: true, endUser: updatedEndUser };
 };
 
 export const deleteEndUser = async (id: number) => {
-    const endUser = await EndUser.findByPk(id, {
-        attributes: ['id', 'name', 'email'],
-    });
+    const endUser = await EndUser.findByPk(id);
     if (!endUser) {
         throw new ErrorResponse('EndUser not found', 404);
     }
     await endUser.destroy();
-    return { ok: true, endUser };
+    return { ok: true, message: 'User deleted successfully' };
 };
