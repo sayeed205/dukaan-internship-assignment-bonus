@@ -504,3 +504,96 @@ This will return a JSON object containing the following properties:
     "message": "EndUser deleted successfully"
 }
 ```
+
+### Users
+
+#### Get Users
+
+```http
+GET /api/user?p=1&l=2&q=
+```
+
+This will return a JSON object containing the following properties:
+
+```json
+{
+    "ok": true,
+    "data": {
+        "users": [
+            {
+                "id": 2,
+                "name": "Sayed Ahmed",
+                "email": "sayeed205@gmail.com"
+            }
+        ],
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1
+    }
+}
+```
+
+#### Get User
+
+```http
+GET /api/user/:id
+```
+
+This will return a JSON object containing the following properties:
+
+```json
+{
+    "ok": true,
+    "user": {
+        "id": 2,
+        "name": "Sayed Ahmed",
+        "email": "sayeed205@gmail.com"
+    }
+}
+```
+
+#### Update User
+
+```http
+PUT /api/users/profile
+
+Content-Type: application/json
+
+Authorization: Bearer <token>
+
+{
+    "name": "Sayed Ahmed"
+}
+```
+
+This will return a JSON object containing the following properties:
+
+```json
+{
+    "ok": true,
+    "user": {
+        "id": 2,
+        "name": "Sayed Ahmed",
+        "email": "sayed@gmail.com",
+        "updatedAt": "2023-08-26T14:50:33.121Z"
+    }
+}
+```
+
+#### Delete User
+
+```http
+DELETE /api/users/profile
+
+Authorization: Bearer <token>
+```
+
+This will return a JSON object containing the following properties:
+
+```json
+{
+    "ok": true,
+    "message": "User deleted successfully"
+}
+```
