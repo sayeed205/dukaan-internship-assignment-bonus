@@ -1,20 +1,42 @@
-import { Conversation } from '../models';
+import { Op } from 'sequelize';
+import { Conversation, EndUser } from '../models';
 import { ErrorResponse } from '../utils';
-import { CreateConversation } from '../validations/conversation-validation';
+import { Pagination } from '../validations';
 
-export const createConversation = async (
-    conversationInfo: CreateConversation
-) => {
-    const conversation = await Conversation.create(conversationInfo);
-
-    return conversation;
+type ConversationInfo = {
+    title: string;
+    content: string;
+    isComplete: boolean;
+    chatbotId: number;
 };
 
-export const getConversationsByChatbotId = async (chatbotId: number) => {
+export const createConversation = async (
+    id: number,
+    conversationInfo: ConversationInfo
+) => {
+    // probably only end users gonna have conversations with chatbots
+
+    const user = await EndUser.findByPk(id);
+
+    if (!user) {
+        throw new ErrorResponse('Probably you are not an end user', 404);
+    }
+
+    const conversation = await Conversation.create({
+        ...conversationInfo,
+        endUserId: id,
+    });
+
+    return { ok: true, conversation };
+};
+
+export const getConversationsByChatbotId = async (
+    chatbotId: number,
+    endUserId: number,
+    pagination: Pagination
+) => {
+    const { p, l, q } = pagination;
     const conversations = await Conversation.findAll({
-        where: {
-            chatbotId,
-        },
         attributes: [
             'id',
             'title',
@@ -24,9 +46,36 @@ export const getConversationsByChatbotId = async (chatbotId: number) => {
             'chatbotId',
             'createdAt',
         ],
+        limit: l,
+        offset: (p - 1) * l,
+        where: {
+            chatbotId,
+            endUserId,
+            [Op.or]: [
+                {
+                    title: {
+                        [Op.like]: `%${q}%`,
+                    },
+                },
+                {
+                    content: {
+                        [Op.like]: `%${q}%`,
+                    },
+                },
+            ],
+        },
     });
 
-    return { ok: true, conversations };
+    return {
+        ok: true,
+        data: {
+            conversations,
+            page: p,
+            limit: l,
+            total: conversations.length,
+            totalPages: Math.ceil(conversations.length / l),
+        },
+    };
 };
 
 export const getConversationById = async (id: number) => {
@@ -42,11 +91,19 @@ export const getConversationById = async (id: number) => {
         ],
     });
 
+    if (!conversation) {
+        throw new ErrorResponse('Conversation not found', 404);
+    }
+
     return { ok: true, conversation };
 };
 
-export const updateConversation = async (id: number, isComplete: boolean) => {
-    const conversation = await Conversation.findByPk(id, {
+export const updateConversation = async (
+    conversationId: number,
+    userId: number,
+    isComplete: boolean
+) => {
+    const conversation = await Conversation.findByPk(conversationId, {
         attributes: [
             'id',
             'title',
@@ -60,6 +117,13 @@ export const updateConversation = async (id: number, isComplete: boolean) => {
 
     if (!conversation) {
         throw new ErrorResponse('Conversation not found', 404);
+    }
+
+    if (conversation.endUserId !== userId) {
+        throw new ErrorResponse(
+            'You are not allowed to update this conversation',
+            403
+        );
     }
 
     conversation.isComplete = isComplete;
@@ -68,8 +132,11 @@ export const updateConversation = async (id: number, isComplete: boolean) => {
     return { ok: true, conversation };
 };
 
-export const deleteConversation = async (id: number) => {
-    const conversation = await Conversation.findByPk(id, {
+export const deleteConversation = async (
+    conversationId: number,
+    userId: number
+) => {
+    const conversation = await Conversation.findByPk(conversationId, {
         attributes: [
             'id',
             'title',
@@ -85,7 +152,14 @@ export const deleteConversation = async (id: number) => {
         throw new ErrorResponse('Conversation not found', 404);
     }
 
-    await conversation.destroy();
+    if (conversation.endUserId !== userId) {
+        throw new ErrorResponse(
+            'You are not allowed to delete this conversation',
+            403
+        );
+    }
+
+    await conversation.update({ isDeleted: true });
 
     return { ok: true, conversation };
 };
