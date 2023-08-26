@@ -78,7 +78,7 @@ export const getConversationsByChatbotId = async (
     };
 };
 
-export const getConversationById = async (id: number) => {
+export const getConversationById = async (id: number, userId: number) => {
     const conversation = await Conversation.findByPk(id, {
         attributes: [
             'id',
@@ -93,6 +93,13 @@ export const getConversationById = async (id: number) => {
 
     if (!conversation) {
         throw new ErrorResponse('Conversation not found', 404);
+    }
+
+    if (conversation.endUserId !== userId) {
+        throw new ErrorResponse(
+            'You are not allowed to view this conversation',
+            403
+        );
     }
 
     return { ok: true, conversation };

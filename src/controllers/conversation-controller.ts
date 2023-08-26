@@ -40,10 +40,11 @@ export const getConversationsByChatbotId = async (
 export const getConversationById = async (req: Request, res: Response) => {
     const parsed = await zParse(conversationValidation.id, req);
     const id = parsed.params.id;
+    const user = getUser(req);
 
     return res
         .status(200)
-        .json(await conversationService.getConversationById(id));
+        .json(await conversationService.getConversationById(id, user.id));
 };
 
 export const updateConversation = async (req: Request, res: Response) => {

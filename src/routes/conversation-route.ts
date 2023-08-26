@@ -24,6 +24,7 @@ router.get(
 
 router.get(
     '/:id',
+    auth,
     validate(conversationValidation.id),
     asyncHandler(conversationController.getConversationById)
 );
